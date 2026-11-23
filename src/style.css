@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Native controls follow the app's dark color scheme on every view. */
+:root {
+  color-scheme: dark;
+}
+
+input,
+select,
+textarea {
+  color-scheme: dark;
+  background-color: #020617;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748b;
+}
+
+/* Print Styles für Historie */
+@media print {
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+  }
+  
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+  
+  .print\:border {
+    border: 1px solid #000 !important;
+  }
+  
+  .print\:text-black {
+    color: #000 !important;
+  }
+  
+  .print\:bg-white {
+    background: white !important;
+  }
+  
+  /* Buttons und Filter-Bars ausblenden */
+  button,
+  input[type="text"],
+  input[type="date"],
+  .bg-gray-50 {
+    display: none !important;
+  }
+  
+  /* Nur History-Einträge drucken */
+  .border.border-gray-200 {
+    border: 1px solid #000 !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* Hide scrollbar for horizontal scrolling containers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 767px), (pointer: coarse) {
+  .desktop-print-only {
+    display: none !important;
+  }
+}
+
+.touch-device .desktop-print-only {
+  display: none !important;
+}

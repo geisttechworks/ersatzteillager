@@ -1,0 +1,16 @@
+{$APP_HOST} {
+    tls {$TLS_CERT_FILE} {$TLS_KEY_FILE}
+    encode zstd gzip
+    request_body {
+        max_size 50MB
+    }
+    reverse_proxy {$POCKETBASE_UPSTREAM} {
+        transport http {
+            read_timeout 360s
+        }
+    }
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+    }
+}

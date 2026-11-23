@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ersatzteillager">
+  <rect width="512" height="512" rx="112" fill="#07111f"/>
+  <path d="M94 185 256 92l162 93v202a34 34 0 0 1-34 34H128a34 34 0 0 1-34-34V185Z" fill="#0e7490" stroke="#67e8f9" stroke-width="18"/>
+  <path d="M94 185h324M256 92v329M145 250h74v68h-74zm148 0h74v68h-74zm-148 100h74v71h-74zm148 0h74v71h-74z" fill="#07111f" stroke="#a5f3fc" stroke-width="14"/>
+</svg>

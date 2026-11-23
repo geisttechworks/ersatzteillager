@@ -1,0 +1,70 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+build/
+coverage/
+.cache/
+scratch/
+tmp/
+pb_public/
+tools/
+playwright-report/
+test-results/
+.playwright-browsers/
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+!.env.gemini.example
+.env.local
+.env.gemini.local
+.gemini-adapter.pid
+
+# PocketBase data
+pb_data
+
+# Local data exports, backups, and generated binaries
+backups/
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.zip
+*.xlsx
+*.xls
+*.pdf
+*.exe
+*.png
+!public/geist-techworks.png
+!public/icons/*.png
+
+# Local exports and generated test data
+export-data.*
+seed-output/
+.factory-verification/
+output/
+local-private/
+/REVIEW.md
+/INSTALLATIONS-TESTBERICHT.md
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
