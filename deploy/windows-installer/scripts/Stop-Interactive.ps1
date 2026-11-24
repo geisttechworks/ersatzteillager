@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 try {
     & (Join-Path $PSScriptRoot 'Stop-Ersatzteillager.ps1') | Out-Null

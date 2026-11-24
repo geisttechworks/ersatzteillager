@@ -6,7 +6,17 @@ Herausgeber: **Geist Techworks** · Kontakt: [geisttechworks@proton.me](mailto:g
 
 Der eigene Programmcode wird unter der **PolyForm Noncommercial License 1.0.0** veröffentlicht. Private und andere nicht-kommerzielle Nutzung ist kostenlos; kommerzielle Nutzung setzt eine vorherige schriftliche Genehmigung voraus. Die Lizenz ist keine Open-Source-Lizenz im Sinne der OSI. PocketBase, Caddy und npm-Abhängigkeiten behalten ihre jeweiligen Lizenzen; das vollständige Inventar steht in `THIRD-PARTY-LICENSES.md` und wird den Paketen beigefügt.
 
-## Version 1.0.1
+## Version 1.0.2
+
+Diese Version behebt zwei Fehler der Ersteinrichtung unter einem frischen Windows-Konto:
+
+- Das Fenster für die ersten Zugangsdaten wird sichtbar im Vordergrund geöffnet; der Installer wartet nicht mehr auf ein verborgenes Fenster.
+- Vor dem Start werden die Ports 8080, 8090 und 8443 geprüft. Bei Konflikten zeigt der Dialog Prozessname und Port und bietet „Erneut prüfen“ oder „Abbrechen“.
+- Nach zehn Minuten ohne Abschluss beendet sich die Ersteinrichtung kontrolliert und verweist auf `%LOCALAPPDATA%\Ersatzteillager\logs\first-run.log`. Das Protokoll enthält keine Zugangsdaten.
+- Vor dem Entfernen des temporären Bootstrap-Zugangs wird ein dauerhaft abgesicherter Recovery-Superuser mit verworfenem Zufallspasswort angelegt. Reste abgebrochener Einrichtungsversuche werden beim nächsten Lauf bereinigt.
+- Alle PowerShell-Skripte des Windows-Pakets werden als UTF-8 mit BOM ausgeliefert, damit Umlaute in Windows PowerShell 5.1 korrekt erscheinen.
+- Der lokale HTTPS-Healthcheck und der Zertifikatimport funktionieren ohne PowerShell-7-Module oder ein vorinitialisiertes `Cert:`-Laufwerk auch unter Windows PowerShell 5.1.
+- Der Installer-Test prüft den sichtbaren First-Run-Dialog, Portkonflikt, Zeitlimit, Superuser-Bereinigung, PocketBase-/Caddy-Start und Einrichtungsseite.
 
 Der allgemeine Windows-Installer richtet eine neue, leere Ersatzteillager-Instanz für den Selbstbetrieb ein.
 

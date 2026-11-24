@@ -5,7 +5,7 @@
   #error OutputDir was not provided.
 #endif
 #ifndef AppVersion
-  #define AppVersion "1.0.1"
+  #define AppVersion "1.0.2"
 #endif
 
 [Setup]
@@ -60,7 +60,7 @@ Name: "{userstartup}\Ersatzteillager"; Filename: "{sys}\WindowsPowerShell\v1.0\p
 
 [Run]
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\scripts\Configure-Firewall.ps1"""; StatusMsg: "Windows-Firewall für das private WLAN wird eingerichtet …"; Flags: runhidden waituntilterminated; Check: not IsAutomatedTest
-Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\scripts\First-Run.ps1"""; StatusMsg: "Erste Einrichtung wird geöffnet …"; Flags: runhidden waituntilterminated runasoriginaluser; Check: not IsAutomatedTest
+Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile -WindowStyle Normal -ExecutionPolicy Bypass -File ""{app}\scripts\First-Run.ps1"""; StatusMsg: "Erste Einrichtung wird geöffnet …"; Flags: waituntilterminated runasoriginaluser; BeforeInstall: ShowFirstRunNotice; Check: not IsAutomatedTest
 
 [UninstallRun]
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\scripts\Stop-Ersatzteillager.ps1"""; Flags: runhidden waituntilterminated; RunOnceId: "StopErsatzteillager"; Check: not IsAutomatedTest
@@ -70,6 +70,11 @@ Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile
 function IsAutomatedTest(): Boolean;
 begin
   Result := ExpandConstant('{param:AutomatedTest|0}') = '1';
+end;
+
+procedure ShowFirstRunNotice();
+begin
+  MsgBox('Es öffnet sich gleich ein Fenster für Ihre Zugangsdaten.', mbInformation, MB_OK);
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);

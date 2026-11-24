@@ -1,4 +1,4 @@
-param([switch]$Remove)
+﻿param([switch]$Remove)
 
 $ErrorActionPreference = 'Stop'
 $ruleNames = @('Ersatzteillager HTTPS im privaten WLAN', 'Ersatzteillager Einrichtung im privaten WLAN')

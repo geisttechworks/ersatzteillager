@@ -1,4 +1,4 @@
-param(
+﻿param(
     [ValidateSet('App', 'Setup', 'Background')]
     [string]$Target = 'App'
 )

@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 Add-Type -AssemblyName System.Windows.Forms
 $confirmation = [Windows.Forms.MessageBox]::Show(

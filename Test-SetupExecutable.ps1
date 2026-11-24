@@ -1,6 +1,6 @@
 param(
     [ValidatePattern('^\d+\.\d+\.\d+$')]
-    [string]$Version = '1.0.1'
+    [string]$Version = '1.0.2'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -55,6 +55,10 @@ try {
         throw 'Das installierte Drittanbieter-Lizenzinventar ist unvollständig.'
     }
 
+    Write-Output 'Phase: Echter First-Run-Dialog wird sichtbar und vollständig automatisiert geprüft.'
+    & (Join-Path $projectRoot 'Test-FirstRunDialog.ps1') -InstallRoot $programRoot
+    if ($LASTEXITCODE -ne 0) { throw 'Der sichtbare First-Run-Dialogtest ist fehlgeschlagen.' }
+
     Write-Output 'Phase: Testinstallation wird still deinstalliert.'
     $remove = Start-Process -FilePath $uninstaller -ArgumentList @(
         '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/AutomatedTest=1'
@@ -66,6 +70,7 @@ try {
         RequiredFiles = 'bestanden'
         NoBundledDatabase = 'bestanden'
         EmbeddedGuide = 'bestanden'
+        VisibleFirstRun = 'bestanden'
         SilentUninstall = 'bestanden'
     } | Format-List
 } finally {

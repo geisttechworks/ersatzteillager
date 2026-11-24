@@ -71,10 +71,10 @@ Die Collections sind zunächst leer. Kategorien und Ersatzteile werden ausschlie
 Für eine eigenständige Installation ohne Entwicklungswerkzeuge steht ein allgemeines Windows-Paket zur Verfügung. Es enthält den Produktions-Build, PocketBase, Migrationen, Caddy für lokales HTTPS, die Ersteinrichtung, eine mobile QR-Anleitung sowie Backup-, Start- und Stoppskripte. Es enthält keine Konten, Passwörter oder Demodaten.
 
 ```powershell
-./New-WindowsInstaller.ps1 -Version 1.0.1
+./New-WindowsInstaller.ps1 -Version 1.0.2
 ```
 
-Das Ergebnis liegt ignoriert unter `output/windows-installer/` als `Ersatzteillager-Setup-<Version>.exe` samt SHA-256-Datei. Betreiber legen beim ersten Start ihren eigenen App-Administrator an. Ein zufälliger Bootstrap-Superuser existiert nur während der lokalen Einrichtung und wird anschließend entfernt.
+Das Ergebnis liegt ignoriert unter `output/windows-installer/` als `Ersatzteillager-Setup-<Version>.exe` samt SHA-256-Datei. Betreiber legen beim ersten Start ihren eigenen App-Administrator an. Ein zufälliger Bootstrap-Superuser existiert nur während der lokalen Einrichtung und wird anschließend entfernt. Damit PocketBase nie ohne Superuser zurückbleibt, wird vorher ein dauerhaftes Recovery-Konto mit einem starken Zufallspasswort angelegt; dieses Passwort wird sofort verworfen und weder gespeichert noch ausgegeben. Einen nutzbaren Superuser legt der Betreiber bei Bedarf mit `pocketbase superuser upsert` an.
 
 Der mobile Zugriff ist ausschließlich im gleichen privaten WLAN vorgesehen:
 
@@ -117,7 +117,7 @@ Das plattformneutrale Release enthält PocketBase für Windows und Linux amd64, 
 ```powershell
 python -m pip install -r requirements-docs.txt
 python scripts/new_user_guide_pdf.py
-./New-ReleasePackage.ps1 -ReleaseVersion 1.0.1 -PocketBaseVersion 0.40.6
+./New-ReleasePackage.ps1 -ReleaseVersion 1.0.2 -PocketBaseVersion 0.40.6
 ./Test-ReleasePackage.ps1
 ```
 

@@ -1,5 +1,5 @@
 param(
-    [string]$PackagePath = (Join-Path $PSScriptRoot 'output\release\ersatzteillager-server-1.0.1-universal.zip')
+    [string]$PackagePath = (Join-Path $PSScriptRoot 'output\release\ersatzteillager-server-1.0.2-universal.zip')
 )
 
 $ErrorActionPreference = 'Stop'

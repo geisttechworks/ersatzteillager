@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$InstallRoot,
     [string]$DataRoot,
     [int]$PocketBasePort = 8090,
@@ -185,10 +185,18 @@ window.ERSATZTEILLAGER_SETUP = {
 "@
 Set-Content -LiteralPath (Join-Path $onboardingDir 'config.js') -Value $configScript -Encoding UTF8
 if (-not $SkipCertificateImport) {
-    $existingCertificate = Get-ChildItem Cert:\CurrentUser\Root -ErrorAction SilentlyContinue |
-        Where-Object { $_.Thumbprint -eq $certificate.Thumbprint } | Select-Object -First 1
-    if (-not $existingCertificate) {
-        Import-Certificate -FilePath $derPath -CertStoreLocation Cert:\CurrentUser\Root | Out-Null
+    $store = [Security.Cryptography.X509Certificates.X509Store]::new(
+        [Security.Cryptography.X509Certificates.StoreName]::Root,
+        [Security.Cryptography.X509Certificates.StoreLocation]::CurrentUser
+    )
+    try {
+        $store.Open([Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
+        $existingCertificate = $store.Certificates | Where-Object {
+            $_.Thumbprint -eq $certificate.Thumbprint
+        } | Select-Object -First 1
+        if (-not $existingCertificate) { $store.Add($certificate) }
+    } finally {
+        $store.Close()
     }
 }
 

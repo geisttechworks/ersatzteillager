@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 function Get-InstallerRoot {
     if ($env:ERSATZTEILLAGER_INSTALL_ROOT) {
@@ -75,13 +75,10 @@ function Wait-HttpEndpoint([string]$Uri, [int]$Attempts = 40, [switch]$AllowUntr
             if ($AllowUntrustedCertificate -and $PSVersionTable.PSVersion.Major -ge 7) {
                 Invoke-WebRequest -Uri $Uri -TimeoutSec 2 -UseBasicParsing -SkipCertificateCheck | Out-Null
             } elseif ($AllowUntrustedCertificate) {
-                $oldCallback = [Net.ServicePointManager]::ServerCertificateValidationCallback
-                try {
-                    [Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
-                    Invoke-WebRequest -Uri $Uri -TimeoutSec 2 -UseBasicParsing | Out-Null
-                } finally {
-                    [Net.ServicePointManager]::ServerCertificateValidationCallback = $oldCallback
-                }
+                $curl = Join-Path $env:SystemRoot 'System32\curl.exe'
+                if (-not (Test-Path -LiteralPath $curl)) { throw 'curl.exe fehlt für den lokalen HTTPS-Test.' }
+                & $curl -k -sS --fail --max-time 2 $Uri *> $null
+                if ($LASTEXITCODE -ne 0) { throw 'Der lokale HTTPS-Endpunkt ist noch nicht erreichbar.' }
             } else {
                 Invoke-WebRequest -Uri $Uri -TimeoutSec 2 -UseBasicParsing | Out-Null
             }

@@ -23,14 +23,14 @@ Der PC muss für die Nutzung eingeschaltet sein. Richten Sie keine Portfreigabe 
 Legen Sie die EXE und die gleichnamige `.sha256`-Datei in denselben Ordner. Öffnen Sie dort PowerShell und berechnen Sie die Prüfsumme:
 
 ```powershell
-Get-FileHash .\Ersatzteillager-Setup-1.0.1.exe -Algorithm SHA256
+Get-FileHash .\Ersatzteillager-Setup-1.0.2.exe -Algorithm SHA256
 ```
 
-PowerShell zeigt unter `Hash` eine lange Zeichenfolge. Öffnen Sie anschließend `Ersatzteillager-Setup-1.0.1.exe.sha256` mit einem Texteditor und vergleichen Sie den ersten Wert vollständig mit `Hash`; Groß-/Kleinschreibung ist dabei unerheblich. Starten Sie die EXE nur, wenn beide Werte übereinstimmen. Dieser Vergleich lässt sich auch eindeutig automatisieren:
+PowerShell zeigt unter `Hash` eine lange Zeichenfolge. Öffnen Sie anschließend `Ersatzteillager-Setup-1.0.2.exe.sha256` mit einem Texteditor und vergleichen Sie den ersten Wert vollständig mit `Hash`; Groß-/Kleinschreibung ist dabei unerheblich. Starten Sie die EXE nur, wenn beide Werte übereinstimmen. Dieser Vergleich lässt sich auch eindeutig automatisieren:
 
 ```powershell
-$actual = (Get-FileHash .\Ersatzteillager-Setup-1.0.1.exe -Algorithm SHA256).Hash.ToLowerInvariant()
-$expected = ((Get-Content .\Ersatzteillager-Setup-1.0.1.exe.sha256 -Raw).Trim() -split '\s+')[0].ToLowerInvariant()
+$actual = (Get-FileHash .\Ersatzteillager-Setup-1.0.2.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+$expected = ((Get-Content .\Ersatzteillager-Setup-1.0.2.exe.sha256 -Raw).Trim() -split '\s+')[0].ToLowerInvariant()
 $actual -eq $expected
 ```
 
@@ -38,13 +38,17 @@ Nur die Ausgabe `True` bestätigt eine Übereinstimmung. Bei `False` darf die In
 
 ## Installation und Ersteinrichtung
 
-1. Starten Sie `Ersatzteillager-Setup-1.0.1.exe` per Doppelklick.
+1. Starten Sie `Ersatzteillager-Setup-1.0.2.exe` per Doppelklick.
 2. Falls Windows SmartScreen erscheint, wählen Sie **Weitere Informationen → Trotzdem ausführen**. Dieser Hinweis ist zu erwarten, weil das Installationspaket nicht mit einer kommerziellen Codesignatur signiert ist. Prüfen Sie vor dem Start die mitgelieferte SHA-256-Datei.
-3. Bestätigen Sie die Windows-Rückfrage und den Installationsordner.
-4. Geben Sie im Einrichtungsassistenten Ihre eigene E-Mail-Adresse, einen Anzeigenamen und ein Passwort mit mindestens 12 Zeichen ein.
-5. Wählen Sie **Einrichten und starten**. Das Schema wird automatisch migriert, der erste App-Administrator wird angelegt und der lokale HTTPS-Zugang gestartet.
+3. Bestätigen Sie die Windows-Rückfrage und den Installationsordner. Vor der Ersteinrichtung erscheint der Hinweis: „Es öffnet sich gleich ein Fenster für Ihre Zugangsdaten.“
+4. Sind 8080, 8090 oder 8443 bereits belegt, zeigt ein Dialog Port und Prozessname. Beenden oder konfigurieren Sie das genannte Programm und wählen Sie **Erneut prüfen**; mit **Abbrechen** endet die Ersteinrichtung ohne wartenden Hintergrundprozess.
+5. Geben Sie im sichtbar im Vordergrund geöffneten Einrichtungsassistenten Ihre eigene E-Mail-Adresse, einen Anzeigenamen und ein Passwort mit mindestens 12 Zeichen ein.
+6. Wählen Sie **Einrichten und starten**. Das Schema wird automatisch migriert, der erste App-Administrator wird angelegt und der lokale HTTPS-Zugang gestartet.
+7. Windows fragt einmal sichtbar, ob die lokale Stammzertifizierungsstelle „Ersatzteillager WLAN“ installiert werden darf. Bestätigen Sie nur bei der von Ihnen gerade gestarteten lokalen Einrichtung. Der private Schlüssel bleibt ausschließlich im Datenordner dieses Windows-Kontos.
 
-Es gibt keine vorgegebenen Konten oder Passwörter. Zugangsdaten werden weder im Paket noch in Protokollen gespeichert. Die Ersteinrichtung verwendet nur vorübergehend ein zufälliges Bootstrap-Konto und entfernt dieses anschließend.
+Es gibt keine vorgegebenen nutzbaren Konten oder Passwörter. Zugangsdaten werden weder im Paket noch in Protokollen gespeichert. Die Ersteinrichtung verwendet vorübergehend ein zufälliges Bootstrap-Konto und entfernt dieses anschließend. Vorher legt sie einen dauerhaften Recovery-Superuser mit einem starken Zufallspasswort an, das sofort verworfen wird. Dieses Konto kann nicht zur Anmeldung verwendet werden; es verhindert ausschließlich einen Zustand ohne Superuser. Einen eigenen nutzbaren Superuser können Betreiber nach dem Stoppen der Anwendung jederzeit mit `pocketbase superuser upsert` anlegen beziehungsweise aktualisieren.
+
+Nach zehn Minuten im Zugangsdaten- oder Portdialog erscheint ein Hinweis, der sich auch ohne Bestätigung schließt. Das Protokoll unter `%LOCALAPPDATA%\Ersatzteillager\logs\first-run.log` enthält weder Passwörter noch Formularwerte. Starten Sie nach einem Abbruch den Installer erneut. Falls schon ein App-Administrator angelegt wurde, verwenden Sie dieselben Zugangsdaten. Bei einer mit 1.0.1 bereits als fertig markierten Einrichtung prüft der Installer, ob noch ein temporärer Bootstrap-Zugang vorhanden ist, und bereinigt ihn. Beenden Sie vor dem Update die Anwendung.
 
 Der Installer wird mit Inno Setup gebaut. Dessen Softwarelizenz gestattet auch kommerzielle Anwendungen; der Hersteller bittet kommerzielle Nutzer zusätzlich um den Kauf einer kommerziellen Inno-Setup-Lizenz. Betreiber und verteilende Stellen müssen diese Beschaffungsentscheidung vor dem betrieblichen Einsatz eigenständig freigeben. Dies ist unabhängig von der fehlenden Codesignatur der erzeugten EXE.
 
@@ -135,6 +139,8 @@ Wenn Sie diese Daten endgültig löschen möchten, erstellen und prüfen Sie zue
 - **Seite nicht erreichbar:** Prüfen Sie, ob PC und Mobilgerät im gleichen privaten WLAN sind, das Windows-Netzwerkprofil **Privat** verwendet wird und keine Geräteisolation aktiv ist.
 - **Zertifikatswarnung:** Installieren Sie das Stammzertifikat vollständig; auf dem iPhone muss es zusätzlich ausdrücklich als vertrauenswürdig aktiviert werden.
 - **Kamera fehlt:** Öffnen Sie die App ausschließlich über die Adresse mit `https://` und Port 8443 und prüfen Sie die Browserberechtigung.
+- **Port belegt:** Der First-Run-Dialog nennt Port und Prozess. Beenden oder konfigurieren Sie nur das genannte Programm und wählen Sie **Erneut prüfen**. Die festen Ports sind nötig, damit Verknüpfungen, Firewallregeln und QR-Codes übereinstimmen.
+- **Ersteinrichtung abgebrochen:** Starten Sie den Installer erneut. Teilzustände werden fortgesetzt oder bereinigt. Details stehen in `%LOCALAPPDATA%\Ersatzteillager\logs\first-run.log`.
 - **Start schlägt fehl:** Protokolle liegen unter `%LOCALAPPDATA%\Ersatzteillager\logs`. Sie enthalten keine Passwörter.
 
 ## Enthaltene Komponenten

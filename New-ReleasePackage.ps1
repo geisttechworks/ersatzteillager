@@ -1,6 +1,6 @@
 param(
     [ValidatePattern('^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$')]
-    [string]$ReleaseVersion = '1.0.1',
+    [string]$ReleaseVersion = '1.0.2',
     [ValidatePattern('^\d+\.\d+\.\d+$')]
     [string]$PocketBaseVersion = '0.40.6',
     [uri]$PocketBaseDownloadRoot = 'https://github.com/pocketbase/pocketbase/releases/download/'
