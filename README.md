@@ -8,7 +8,21 @@ Herausgeber: **Geist Techworks** · Kontakt: [geisttechworks@proton.me](mailto:g
 
 Der eigene Programmcode steht unter der [PolyForm Noncommercial License 1.0.0](LICENSE.md): Die private und sonstige nicht-kommerzielle Nutzung ist kostenlos. Kommerzielle Nutzung ist nur nach vorheriger schriftlicher Absprache mit [geisttechworks@proton.me](mailto:geisttechworks@proton.me) zulässig. PolyForm Noncommercial 1.0.0 ist keine Open-Source-Lizenz im Sinne der Open Source Initiative (OSI). Drittanbieterkomponenten bleiben unter ihren jeweiligen Lizenzen; Inventar und unveränderte Lizenztexte stehen in [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md).
 
-## Voraussetzungen
+## Download und Installation für Anwender
+
+Die aktuelle Installationsdatei steht unter [GitHub Releases – neueste Version](https://github.com/geisttechworks/ersatzteillager/releases/latest) bereit. Laden Sie für Windows 10 oder Windows 11 (64 Bit) `Ersatzteillager-Setup-<Version>.exe` und die gleichnamige Datei mit der Endung `.sha256` herunter. Prüfen Sie anschließend die Installationsdatei in PowerShell:
+
+```powershell
+Get-FileHash .\Ersatzteillager-Setup-<Version>.exe -Algorithm SHA256
+```
+
+Vergleichen Sie den angezeigten Hash vollständig mit dem ersten Wert aus `Ersatzteillager-Setup-<Version>.exe.sha256` und starten Sie die EXE nur bei Übereinstimmung. Beim ersten Start kann Windows SmartScreen einmalig warnen, weil der Installer nicht digital signiert ist. Die Anwendung ist für den Betrieb im privaten WLAN ausgelegt, nicht für eine direkte Veröffentlichung im Internet.
+
+Die vollständige Anleitung für Installation, Ersteinrichtung, Zertifikat, Handy-Zugang, Backup, Update und Deinstallation steht in [deploy/windows-installer/README-INSTALLATION.md](deploy/windows-installer/README-INSTALLATION.md).
+
+## Für Entwickler
+
+### Voraussetzungen
 
 - Windows x64 und PowerShell 7
 - Node.js 22 LTS mit `npm`
@@ -17,7 +31,7 @@ Der eigene Programmcode steht unter der [PolyForm Noncommercial License 1.0.0](L
 
 Geprüfte Backend-Version: PocketBase `0.40.6`. Das Schema verwendet das Migrationsformat `fields` aus PocketBase 0.23+.
 
-## Installation von null
+### Installation von null
 
 ```powershell
 git clone https://github.com/geisttechworks/ersatzteillager.git ersatzteillager
@@ -38,7 +52,7 @@ Danach startet die Entwicklungsumgebung mit:
 
 Die Collections sind zunächst leer. Kategorien und Ersatzteile werden ausschließlich über die App angelegt; Demo-Daten werden nicht automatisch erzeugt.
 
-## Windows-Installer für Selbstbetrieb
+### Windows-Installer für Selbstbetrieb
 
 Für eine eigenständige Installation ohne Entwicklungswerkzeuge steht ein allgemeines Windows-Paket zur Verfügung. Es enthält den Produktions-Build, PocketBase, Migrationen, Caddy für lokales HTTPS, die Ersteinrichtung, eine mobile QR-Anleitung sowie Backup-, Start- und Stoppskripte. Es enthält keine Konten, Passwörter oder Demodaten.
 
@@ -56,7 +70,7 @@ Handy/Browser ── lokales HTTPS :8443 ── Caddy ── Loopback :8090 ─�
 
 Die Einrichtungsseite auf Port 8080 verteilt nur die lokale Anleitung und das öffentliche Stammzertifikat. Es gibt keinen Cloudflare-Tunnel, keine Router-Portfreigabe und keine Veröffentlichung ins Internet. Das lokale Zertifikat muss einmal auf jedem freigegebenen Mobilgerät installiert und als vertrauenswürdig aktiviert werden. Ausführliche Betreiberanleitung: [deploy/windows-installer/README-INSTALLATION.md](deploy/windows-installer/README-INSTALLATION.md).
 
-## Konfiguration
+### Konfiguration
 
 `.env.example` und `.env.gemini.example` enthalten ausschließlich leere Variablen. Lokale Werte gehören in `.env.local` beziehungsweise `.env.gemini.local`; beide Dateien sind ignoriert.
 
@@ -71,7 +85,7 @@ Die Einrichtungsseite auf Port 8080 verteilt nur die lokale Anleitung und das ö
 
 Für Gemini gelten zusätzlich die Variablen aus `.env.gemini.example`; siehe [Gemini-Adapter-Anleitung.md](Gemini-Adapter-Anleitung.md).
 
-## Produktion und HTTPS
+### Produktion und HTTPS
 
 ```powershell
 ./Build-Production.ps1
@@ -82,7 +96,7 @@ Copy-Item .env.example .env
 
 Der Build landet in `pb_public`; PocketBase liefert App und API aus derselben Origin. PocketBase bleibt standardmäßig an Loopback gebunden. `Caddyfile.example` nutzt nur Umgebungsvariablen (`APP_HOST`, `TLS_CERT_FILE`, `TLS_KEY_FILE`, `POCKETBASE_UPSTREAM`). Zertifikat, DNS, Firewall und Vertrauensstellung richtet der Betreiber ein. Kamera/QR-Scanner funktionieren mobil nur über HTTPS oder localhost.
 
-## Server-Paket für den Betrieb
+### Server-Paket für den Betrieb
 
 Das plattformneutrale Release enthält PocketBase für Windows und Linux amd64, den fertigen Build in `pb_public`, Migrationen, Start-/Stoppskripte, Ersteinrichtung, Backup-Spiegel, Caddy-/nginx-Vorlagen, Prüfsummen und Anwenderdokumentation:
 
