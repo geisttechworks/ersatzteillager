@@ -188,10 +188,10 @@ export default function Dashboard({ onNavigateToLowStock, onNavigateToHistory }:
                   </div>
                   <div className="text-right ml-4">
                     <div className="rounded border border-slate-800 bg-slate-950 px-2 py-1 text-xs font-medium text-slate-400">
-                      {new Date(log.timestamp).toLocaleDateString('de-DE')}
+                      {new Date(log.created || log.timestamp).toLocaleDateString('de-DE')}
                     </div>
                     <p className="mt-1 text-xs text-slate-500">
-                      {new Date(log.timestamp).toLocaleTimeString('de-DE')}
+                      {new Date(log.created || log.timestamp).toLocaleTimeString('de-DE')}
                     </p>
                   </div>
                 </div>

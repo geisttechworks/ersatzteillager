@@ -20,6 +20,20 @@ Vergleichen Sie den angezeigten Hash vollständig mit dem ersten Wert aus `Ersat
 
 Die vollständige Anleitung für Installation, Ersteinrichtung, Zertifikat, Handy-Zugang, Backup, Update und Deinstallation steht in [deploy/windows-installer/README-INSTALLATION.md](deploy/windows-installer/README-INSTALLATION.md).
 
+## Screenshots
+
+### Handy
+
+| Bestandsliste | Teilansicht mit Entnahme |
+|---|---|
+| ![Mobile Bestandsliste mit neutralen Beispielteilen](docs/screenshots/mobile-bestandsliste.png) | ![Mobile Detailansicht einer Schraube mit Schaltfläche zur Entnahme](docs/screenshots/mobile-teil-entnahme.png) |
+
+### PC
+
+![Desktop-Übersicht mit Bestandskennzahlen und neutralen Beispieldaten](docs/screenshots/desktop-uebersicht.png)
+
+![Desktop-Buchungsverlauf mit neutralen Zu- und Abgängen](docs/screenshots/desktop-verlauf.png)
+
 ## Für Entwickler
 
 ### Voraussetzungen

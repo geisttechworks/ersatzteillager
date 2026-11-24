@@ -48,6 +48,8 @@ backups/
 *.png
 !public/geist-techworks.png
 !public/icons/*.png
+!docs/screenshots/
+!docs/screenshots/*.png
 
 # Local exports and generated test data
 export-data.*

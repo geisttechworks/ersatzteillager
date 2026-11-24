@@ -11,6 +11,7 @@
     "adapter:gemini": "node gemini-adapter/server.mjs",
     "lint": "eslint src --max-warnings=0",
     "licenses": "node scripts/generate_third_party_licenses.mjs",
+    "screenshots": "node scripts/make-screenshots.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },
